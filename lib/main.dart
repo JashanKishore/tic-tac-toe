@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -28,7 +30,14 @@ class _TicTacToeState extends State<TicTacToe> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tic Tac Toe'),
+        title: Text(
+          'Tic Tac Toe',
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
       ),
       body: Center(
         child: Column(
@@ -62,7 +71,10 @@ class _TicTacToeState extends State<TicTacToe> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _resetGame,
-              child: Text('Reset Game'),
+              child: Text('Reset Game', 
+              style: TextStyle(
+                color: Colors.black),
+                ),
             ),
           ],
         ),
