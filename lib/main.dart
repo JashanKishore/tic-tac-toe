@@ -23,12 +23,14 @@ class TicTacToe extends StatefulWidget {
 
 class _TicTacToeState extends State<TicTacToe> {
   List<List<String>> _board = List.generate(3, (index) => List.filled(3, ''));
-
   bool isAiTurn = false;
+  // Define a GlobalKey for the Scaffold to open/close the drawer programmatically
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Assign the GlobalKey to the Scaffold
       appBar: AppBar(
         title: Text(
           'Tic Tac Toe',
@@ -37,6 +39,15 @@ class _TicTacToeState extends State<TicTacToe> {
             fontWeight: FontWeight.bold,
             color: Colors.blue,
           ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.menu, // Use the menu icon for the hamburger menu
+          size: 40,
+          ), 
+          onPressed: () {
+            // Open/close the drawer when the menu icon is pressed
+            _scaffoldKey.currentState?.openDrawer();
+          },
         ),
       ),
       body: Center(
@@ -82,8 +93,33 @@ class _TicTacToeState extends State<TicTacToe> {
           ],
         ),
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            // Customize your drawer content here
+            ListTile(
+              title: Text('Match history'),
+              onTap: () {
+                // Handle the onTap action for this menu item
+                // For example, close the drawer and perform an action
+                _scaffoldKey.currentState?.openEndDrawer();
+                // Your action here...
+              },
+            ),
+            ListTile(
+              title: Text('Menu Item 2'),
+              onTap: () {
+                _scaffoldKey.currentState?.openEndDrawer();
+                // Your action here...
+              },
+            ),
+            // Add more ListTile widgets as needed
+          ],
+        ),
+      ),
     );
   }
+
 
   void _onTileTapped(int i, int j) {
     if (!isAiTurn && _board[i][j] == '') {
