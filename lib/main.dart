@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: TicTacToe(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -74,11 +75,13 @@ class _TicTacToeState extends State<TicTacToe> {
       });
 
       // Check for a winner or a draw
-      if (_checkWinner('X')) {
-        _showDialog('Player X wins!');
-      } else if (_isBoardFull()) {
-        _showDialog('It\'s a draw!');
-      } else {
+    if (_checkWinner('X')) {
+      _showDialog('Player X wins!');
+    } else if (_isBoardFull()) {
+      _showDialog('It\'s a draw!');
+    } else {
+      // Introduce a delay before the AI's move
+      Future.delayed(const Duration(seconds: 1), () {
         // Computer's move (simple AI, just fills the first available spot)
         _computerMove();
         if (_checkWinner('O')) {
@@ -86,9 +89,10 @@ class _TicTacToeState extends State<TicTacToe> {
         } else if (_isBoardFull()) {
           _showDialog('It\'s a draw!');
         }
-      }
+      });
     }
   }
+}
 
   void _computerMove() {
     for (int i = 0; i < 3; i++) {
