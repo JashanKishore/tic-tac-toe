@@ -98,7 +98,28 @@ class _TicTacToeState extends State<TicTacToe> {
   }
 }
 
-  void _computerMove() {
+void _computerMove() {
+  // Check for potential winning moves for the player (X) and block them
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      if (_board[i][j] == '') {
+        // Simulate the move to check for potential win
+        _board[i][j] = 'X';
+        if (_checkWinner('X')) {
+          // Block the winning move
+          setState(() {
+            _board[i][j] = 'O';
+          });
+          return;
+        } else {
+          // Undo the move if it doesn't lead to a win
+          _board[i][j] = '';
+        }
+      }
+    }
+  }
+
+  // If there are no winning moves to block, fill the first available spot
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       if (_board[i][j] == '') {
