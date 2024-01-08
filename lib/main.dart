@@ -22,6 +22,8 @@ class TicTacToe extends StatefulWidget {
 class _TicTacToeState extends State<TicTacToe> {
   List<List<String>> _board = List.generate(3, (index) => List.filled(3, ''));
 
+  bool isAiTurn = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +71,7 @@ class _TicTacToeState extends State<TicTacToe> {
   }
 
   void _onTileTapped(int i, int j) {
-    if (_board[i][j] == '') {
+    if (!isAiTurn && _board[i][j] == '') {
       setState(() {
         _board[i][j] = 'X';
       });
@@ -80,8 +82,8 @@ class _TicTacToeState extends State<TicTacToe> {
     } else if (_isBoardFull()) {
       _showDialog('It\'s a draw!');
     } else {
-      // Introduce a delay before the AI's move
-      Future.delayed(const Duration(seconds: 1), () {
+      // Set _isAiTurn to true to disable user input during AI's turn
+      isAiTurn = true;
         // Computer's move (simple AI, just fills the first available spot)
         _computerMove();
         if (_checkWinner('O')) {
@@ -89,23 +91,26 @@ class _TicTacToeState extends State<TicTacToe> {
         } else if (_isBoardFull()) {
           _showDialog('It\'s a draw!');
         }
-      });
+
+        // Set isAiTurn back to false after AI's move to enable user input
+        isAiTurn = false;
     }
   }
 }
 
   void _computerMove() {
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
-        if (_board[i][j] == '') {
-          setState(() {
-            _board[i][j] = 'O';
-          });
-          return;
-        }
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      if (_board[i][j] == '') {
+        setState(() {
+          _board[i][j] = 'O';
+        });
+        return;
       }
     }
   }
+}
+
 
   bool _checkWinner(String player) {
     // Check rows
@@ -146,10 +151,15 @@ class _TicTacToeState extends State<TicTacToe> {
   }
 
   void _resetGame() {
-    setState(() {
-      _board = List.generate(3, (index) => List.filled(3, ''));
-    });
-  }
+  setState(() {
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        _board[i][j] = '';
+      }
+    }
+  });
+}
+
 
   void _showDialog(String message) {
     showDialog(
