@@ -53,25 +53,28 @@ class _TicTacToeState extends State<TicTacToe> {
                         _onTileTapped(i, j);
                       },
                       child: Container(
-                        width: 50,
-                        height: 50,
+                        width: 90,
+                        height: 90,
                         decoration: BoxDecoration(
                           border: Border.all(),
                         ),
                         child: Center(
                           child: Text(
                             _board[i][j],
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold
+                              ),
                           ),
                         ),
                       ),
                     ),
                 ],
               ),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             ElevatedButton(
               onPressed: _resetGame,
-              child: Text('Reset Game', 
+              child: Text('Reset', 
               style: TextStyle(
                 color: Colors.black),
                 ),
